@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trắc nghiệm hướng kiếm tiền phù hợp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Big+Shoulders+Display:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EDF3F0; --card:#F9FCFA; --ink:#12303A; --muted:#4C6770;
+  --teal:#1A7A8C; --note:#0F5566; --on-note:#EAF6F2; --on-accent:#FFFFFF;
+  --green:#4F8A3C; --plum:#9C3D6E; --gold:#B98A2E; --line:rgba(18,48,58,.2);
+  --display:"Big Shoulders Display","Big Shoulders","Oswald","Arial Narrow","Helvetica Neue",Arial,sans-serif;
+  --body:"Be Vietnam Pro","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E2229; --card:#14303A; --ink:#E4EFEA; --muted:#9DB6BC;
+    --teal:#56B7C8; --note:#0F5566; --on-note:#EAF6F2; --on-accent:#0E2229;
+    --green:#8CC474; --plum:#DE86B4; --gold:#D9B25C; --line:rgba(228,239,234,.2);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E2229; --card:#14303A; --ink:#E4EFEA; --muted:#9DB6BC;
+  --teal:#56B7C8; --note:#0F5566; --on-note:#EAF6F2; --on-accent:#0E2229;
+  --green:#8CC474; --plum:#DE86B4; --gold:#D9B25C; --line:rgba(228,239,234,.2);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 72px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:1rem;line-height:1.6;-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:var(--display);font-weight:800;line-height:1.15;margin:0;letter-spacing:.005em}
+h1{font-size:clamp(2.6rem,9vw,4.4rem)}
+h2{font-size:clamp(1.9rem,6vw,2.6rem)}
+h3{font-size:1.45rem;font-weight:600}
+p{margin:0 0 1em}
+.wrap{max-width:42rem;margin:0 auto;padding:0 1.25rem 4rem}
+
+/* progress strip */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:1px solid var(--line)}
+.bar-in{max-width:42rem;margin:0 auto;padding:.7rem 1.25rem .6rem}
+.segs{display:flex;gap:4px}
+.seg{flex:1;height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.seg i{display:block;height:100%;width:0;background:var(--teal);transition:width .25s ease}
+.bar-label{font-size:.82rem;color:var(--muted);margin-top:.35rem;min-height:1.3em}
+.bar[hidden]{display:none}
+
+/* intro */
+.hero{position:relative;padding:3.2rem 0 1.5rem;overflow:hidden}
+.hero h1{position:relative;max-width:11em}
+.hero .rosette{position:absolute;right:-7rem;top:-2rem;width:24rem;height:24rem;color:var(--teal);opacity:.4;pointer-events:none}
+.lede{font-size:1.1rem;max-width:34em;margin-top:1.2rem;position:relative}
+.measures{margin:2rem 0;padding:0;list-style:none;border-top:1px solid var(--line)}
+.measures li{display:grid;grid-template-columns:3.2rem 1fr;gap:.75rem;padding:.85rem 0;border-bottom:1px solid var(--line);align-items:baseline}
+.measures b{font-family:var(--display);font-size:1.7rem;font-weight:800;color:var(--teal);line-height:1}
+.measures span{display:block}
+.measures small{color:var(--muted);font-size:.88rem}
+.fine{font-size:.88rem;color:var(--muted)}
+
+/* buttons */
+.btn{font:600 1rem var(--body);padding:.85rem 1.5rem;border-radius:4px;border:1.5px solid var(--teal);background:var(--teal);color:var(--on-accent);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--teal)}
+.btn:focus-visible,.linkbtn:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.linkbtn{background:none;border:0;padding:0;color:var(--teal);font:500 .95rem var(--body);text-decoration:underline;cursor:pointer}
+.nav{display:flex;justify-content:space-between;gap:1rem;margin-top:2.2rem;align-items:center;flex-wrap:wrap}
+.warn{color:var(--plum);font-size:.92rem;font-weight:500;flex-basis:100%;min-height:1.4em;margin:0}
+
+/* questions */
+.sec-head{padding:2.2rem 0 1.2rem}
+.sec-head p{color:var(--muted);margin:.6rem 0 0;max-width:36em}
+fieldset.q{border:0;margin:0;padding:1.15rem 0;border-top:1px solid var(--line)}
+fieldset.q.miss legend{color:var(--plum)}
+fieldset.q legend{padding:0;font-weight:500;margin-bottom:.7rem;max-width:36em}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:26rem}
+.scale label,.opts label{position:relative;display:block;cursor:pointer}
+.scale input,.opts input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.scale span{display:block;text-align:center;padding:.6rem 0;border:1.5px solid var(--line);border-radius:4px;background:var(--card);font-family:var(--display);font-weight:600;font-size:1.25rem;line-height:1.2}
+.scale input:checked + span,.opts input:checked + span{background:var(--teal);border-color:var(--teal);color:var(--on-accent)}
+.scale input:focus-visible + span,.opts input:focus-visible + span{outline:3px solid var(--gold);outline-offset:2px}
+.ends{display:flex;justify-content:space-between;max-width:26rem;font-size:.8rem;color:var(--muted);margin-top:.35rem}
+.opts{display:grid;gap:6px;max-width:30rem}
+.opts span{display:block;padding:.7rem .9rem;border:1.5px solid var(--line);border-radius:4px;background:var(--card)}
+
+/* result */
+.note{position:relative;overflow:hidden;background:var(--note);color:var(--on-note);border-radius:6px;padding:1.6rem 1.5rem 1.5rem;margin:1.6rem 0 1rem}
+.note .rosette{position:absolute;right:-5.5rem;bottom:-6.5rem;width:20rem;height:20rem;opacity:.35;pointer-events:none}
+.note .pct{font-family:var(--display);font-weight:800;font-size:clamp(4.2rem,20vw,7.5rem);line-height:.95;position:relative}
+.note .pct small{font-size:.3em;font-weight:600;margin-left:.3rem}
+.note h2{position:relative;margin-top:.5rem;max-width:14em}
+.note p{position:relative;margin:.8rem 0 0;max-width:32em}
+.block{padding:2rem 0 0}
+.block > h2{margin-bottom:.9rem}
+.meter{display:grid;grid-template-columns:minmax(7.5rem,11rem) 1fr 2.4rem;gap:.7rem;align-items:center;padding:.3rem 0;font-size:.95rem}
+.meter .track{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.meter .track i{display:block;height:100%;background:var(--teal)}
+.meter.g .track i{background:var(--green)}
+.meter.p .track i{background:var(--plum)}
+.meter.y .track i{background:var(--gold)}
+.meter em{font-style:normal;text-align:right;font-family:var(--display);font-weight:600;font-size:1.1rem}
+.sub{font-weight:600;margin:1.4rem 0 .4rem}
+.code{font-family:var(--display);font-weight:800;font-size:2.4rem;color:var(--teal);letter-spacing:.06em;line-height:1}
+.mode{border-left:4px solid var(--gold);padding:.2rem 0 .2rem 1rem;margin-top:.6rem}
+.mode h3{margin-bottom:.4rem}
+.sortrow{display:flex;gap:1.2rem;flex-wrap:wrap;font-size:.92rem;margin-bottom:.4rem}
+.sortrow label{cursor:pointer;display:flex;gap:.4rem;align-items:center}
+details.path{border-top:1px solid var(--line)}
+details.path:last-of-type{border-bottom:1px solid var(--line)}
+details.path summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:2rem 1fr auto;gap:.6rem;align-items:baseline;padding:.95rem 0}
+details.path summary::-webkit-details-marker{display:none}
+details.path .rank{font-family:var(--display);font-weight:800;font-size:1.4rem;color:var(--muted)}
+details.path .nm{font-weight:600}
+details.path .sc{font-family:var(--display);font-weight:800;font-size:1.5rem;color:var(--teal)}
+details.path .body{padding:0 0 1.2rem 2.6rem}
+.facts{display:grid;grid-template-columns:repeat(2,1fr);gap:.2rem 1.2rem;margin:.8rem 0;font-size:.9rem}
+.facts div{display:flex;justify-content:space-between;border-bottom:1px dotted var(--line);padding:.25rem 0}
+.facts b{font-weight:600}
+.note .facts div{border-color:rgba(234,246,242,.35)}
+ul.tight{margin:.3rem 0 .9rem;padding-left:1.15rem}
+ul.tight li{margin:.2rem 0}
+.rest{columns:2;column-gap:2rem;font-size:.92rem;padding:0;list-style:none;margin:.8rem 0 0}
+.rest li{display:flex;justify-content:space-between;gap:.5rem;padding:.2rem 0;break-inside:avoid}
+.refs{font-size:.88rem;color:var(--muted);padding-left:1.15rem}
+.refs li{margin:.35rem 0}
+textarea.copy{width:100%;min-height:11rem;font:400 .85rem/1.5 var(--body);background:var(--card);color:var(--ink);border:1.5px solid var(--line);border-radius:4px;padding:.7rem;margin-top:.8rem}
+.actions{display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;margin-top:1rem}
+.ok{color:var(--green);font-weight:500;font-size:.92rem}
+@media (max-width:520px){
+  .facts{grid-template-columns:1fr}
+  .rest{columns:1}
+  details.path .body{padding-left:0}
+  .hero .rosette{width:18rem;height:18rem;right:-8rem}
+}
+@media (prefers-reduced-motion:reduce){.seg i{transition:none}}
+</style>
+</head>
+<body>
+<header class="bar" id="bar" hidden>
+  <div class="bar-in">
+    <div class="segs" id="segs"></div>
+    <div class="bar-label" id="barLabel"></div>
+  </div>
+</header>
+<main class="wrap" id="app"></main>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- Bộ câu hỏi ---------- */
+var SCALES={
+  like:["Rất không thích","Rất thích"],
+  agree:["Hoàn toàn sai","Hoàn toàn đúng"],
+  skill:["Rất yếu","Xuất sắc"]
+};
+var SECTIONS=[
+ {id:"riasec",title:"Bạn thích làm gì",scale:"like",
+  lead:"Chấm mức độ bạn thích từng hoạt động. Đừng quan tâm mình có giỏi việc đó hay không, cũng đừng quan tâm nó kiếm được bao nhiêu.",
+  items:[
+   ["R1","Sửa chữa, lắp ráp máy móc hoặc thiết bị"],
+   ["I1","Phân tích dữ liệu để tìm ra quy luật ẩn bên dưới"],
+   ["A1","Viết, quay dựng video hoặc sáng tác nội dung"],
+   ["S1","Hướng dẫn, đào tạo hoặc kèm cặp người khác"],
+   ["E1","Thuyết phục người khác mua hàng hoặc ủng hộ ý tưởng của mình"],
+   ["C1","Sắp xếp số liệu, sổ sách, hồ sơ cho ngăn nắp và chính xác"],
+   ["R2","Làm việc ngoài trời, ở công trình, nông trại hoặc nhà xưởng"],
+   ["I2","Nghiên cứu sâu một vấn đề khoa học hoặc kỹ thuật"],
+   ["A2","Thiết kế hình ảnh, sản phẩm hoặc không gian"],
+   ["S2","Lắng nghe và giúp người khác gỡ rối vấn đề của họ"],
+   ["E2","Dẫn dắt một nhóm người để đạt mục tiêu"],
+   ["C2","Làm theo quy trình rõ ràng và kiểm tra kỹ từng chi tiết"],
+   ["R3","Tự tay làm ra sản phẩm vật lý: đồ gỗ, cơ khí, món ăn"],
+   ["I3","Giải bài toán logic, tối ưu một hệ thống hoặc thuật toán"],
+   ["A3","Nghĩ ra cách làm khác thường thay vì theo mẫu có sẵn"],
+   ["S3","Chăm sóc sức khoẻ, tinh thần hoặc sự phát triển của người khác"],
+   ["E3","Thương lượng, chốt hợp đồng, săn cơ hội kinh doanh"],
+   ["C3","Lập kế hoạch, ngân sách và theo dõi tiến độ"]
+  ]},
+ {id:"big5",title:"Bạn là người thế nào",scale:"agree",
+  lead:"Chấm theo con người bạn trong phần lớn thời gian, không phải con người bạn muốn trở thành.",
+  items:[
+   ["E_a","Tôi nạp năng lượng khi gặp gỡ, trò chuyện với nhiều người"],
+   ["C_a","Tôi hoàn thành việc đúng hạn kể cả khi không ai giám sát"],
+   ["O_a","Tôi tò mò và thích học những lĩnh vực hoàn toàn mới"],
+   ["A_a","Tôi dễ cảm thông và ưu tiên giữ hoà khí"],
+   ["N_a","Tôi giữ được bình tĩnh khi áp lực cao hoặc nhận tin xấu"],
+   ["E_r","Tôi kiệm lời và thích ở một mình hơn"],
+   ["C_r","Tôi hay trì hoãn và làm việc thiếu kế hoạch"],
+   ["O_r","Tôi thích cách làm quen thuộc, đã được kiểm chứng hơn là thử cái mới"],
+   ["A_r","Tôi sẵn sàng tranh cãi gay gắt để đạt điều mình muốn"],
+   ["N_r","Tôi hay lo lắng, mất ngủ vì chuyện công việc và tiền bạc"]
+  ]},
+ {id:"ent",title:"Bạn muốn tự làm chủ đến đâu",scale:"agree",
+  lead:"Sáu đặc điểm mà các nghiên cứu tổng hợp thấy khác biệt rõ giữa người kinh doanh và người làm thuê.",
+  items:[
+   ["T1","Tôi chấp nhận thu nhập bấp bênh 1–2 năm để đổi lấy cơ hội kiếm nhiều hơn hẳn"],
+   ["T2","Tôi tin mình xử lý được hầu hết vấn đề mới nếu đủ nỗ lực"],
+   ["T3","Tôi muốn tự quyết làm gì, làm lúc nào, thay vì nhận chỉ đạo"],
+   ["T4","Tôi thường bắt tay vào làm trước khi có ai yêu cầu"],
+   ["T5","Tôi đặt mục tiêu khó và thấy bứt rứt khi chưa đạt"],
+   ["T6","Khi thất bại, tôi nhanh chóng thử lại theo cách khác"]
+  ]},
+ {id:"skill",title:"Bạn giỏi gì",scale:"skill",
+  lead:"So với những người đi làm mà bạn biết. Chấm thật tay: điểm ảo cho kết quả ảo.",
+  items:[
+   ["code","Lập trình, xây sản phẩm công nghệ"],
+   ["data","Phân tích số liệu, tài chính, Excel hoặc SQL"],
+   ["sales","Bán hàng, thuyết phục, đàm phán"],
+   ["write","Viết, kể chuyện, làm nội dung hoặc video"],
+   ["design","Thiết kế, thẩm mỹ hình ảnh"],
+   ["lead","Quản lý và dẫn dắt đội nhóm"],
+   ["ops","Tổ chức vận hành, quy trình, kiểm soát chi tiết"],
+   ["hand","Kỹ thuật tay nghề: máy móc, sửa chữa, xây dựng, chế biến"],
+   ["teach","Giảng giải, đào tạo người khác"],
+   ["eng","Tiếng Anh dùng được trong công việc"],
+   ["expert","Chuyên môn sâu trong một ngành mà người khác sẵn sàng trả tiền"],
+   ["net","Mạng lưới quan hệ với người có tiền hoặc có quyền quyết định"]
+  ]},
+ {id:"ctx",title:"Hoàn cảnh hiện tại",type:"choice",
+  lead:"Một hướng đi hợp tính cách nhưng vượt quá sức chịu đựng tài chính vẫn là hướng đi sai.",
+  items:[
+   ["status","Hiện tại bạn đang",["Làm công ăn lương","Làm tự do (freelance)","Có việc kinh doanh riêng","Đang nghỉ, tìm hướng mới"]],
+   ["runway","Nếu mất toàn bộ thu nhập hôm nay, tiền tiết kiệm đủ sống bao lâu",["Dưới 3 tháng","3–6 tháng","6–12 tháng","Trên 12 tháng"]],
+   ["capital","Số vốn bạn có thể bỏ ra mà nếu mất trắng cũng không ảnh hưởng cuộc sống",["Dưới 50 triệu đồng","50–300 triệu đồng","300 triệu – 1 tỷ đồng","Trên 1 tỷ đồng"]],
+   ["dep","Số người phụ thuộc tài chính vào bạn",["Không ai","1–2 người","Từ 3 người"]],
+   ["hours","Số giờ mỗi tuần bạn thật sự dành được cho một hướng đi mới",["Dưới 5 giờ","5–10 giờ","10–20 giờ","Trên 20 giờ hoặc toàn thời gian"]],
+   ["horizon","Hướng mới cần ra tiền trong bao lâu",["Trong 3 tháng","6–12 tháng","1–2 năm","3 năm trở lên cũng được"]],
+   ["pref","Nếu phải chọn một trong ba mức thu nhập mỗi tháng",["Chắc chắn 40 triệu","25 triệu cố định, thưởng có thể lên 80 triệu","Không có lương cứng: có tháng 0, có tháng 200 triệu"]]
+  ]}
+];
+
+var RIASEC_NAME={R:"Kỹ thuật – thực tế",I:"Nghiên cứu – phân tích",A:"Sáng tạo",S:"Xã hội – hỗ trợ",E:"Kinh doanh – dẫn dắt",C:"Quy củ – nghiệp vụ"};
+var B5_NAME={O:"Cởi mở với cái mới",C:"Tận tâm, kỷ luật",E:"Hướng ngoại",A:"Dễ chịu, hoà đồng",N:"Ổn định cảm xúc"};
+var SKILL_NAME={};SECTIONS[3].items.forEach(function(it){SKILL_NAME[it[0]]=it[1];});
+
+/* ---------- Các hướng đi ---------- */
+/* r: trọng số sở thích RIASEC; p: tính cách (âm = cần mức thấp); sk: kỹ năng;
+   ent: mức độ tự chủ/rủi ro; cap: vốn cần; tti: thời gian ra tiền; up: trần thu nhập (đều 0–1, ước lượng tương đối) */
+var PATHS=[
+ {id:"remote",name:"Kỹ sư phần mềm, dữ liệu, AI cho công ty nước ngoài",
+  desc:"Làm kỹ thuật cho công ty nước ngoài, nhận lương theo ngoại tệ nhưng chi tiêu ở Việt Nam. Chênh lệch chi phí sống là đòn bẩy chính.",
+  ex:"Backend, data engineer, kỹ sư AI/ML, kiểm thử tự động, DevOps; làm từ xa hoặc qua công ty gia công phần mềm lớn.",
+  test:"Hoàn thành một dự án nhỏ có người dùng thật và nộp 10 hồ sơ vào vị trí làm từ xa để đo phản hồi của thị trường.",
+  r:{I:3,C:1,R:1},p:{C:2,O:2,E:-1},sk:{code:3,data:2,eng:3},ent:.25,cap:.05,tti:.4,up:.7},
+ {id:"b2bsales",name:"Bán hàng B2B hoa hồng cao, phát triển kinh doanh",
+  desc:"Bán sản phẩm giá trị lớn cho doanh nghiệp. Thu nhập gắn với hoa hồng nên không bị trần lương.",
+  ex:"Phần mềm doanh nghiệp, thiết bị công nghiệp, bất động sản khu công nghiệp, logistics, bảo hiểm doanh nghiệp.",
+  test:"Xin bán thử ăn hoa hồng cho một sản phẩm B2B trong 30 ngày, mục tiêu 20 cuộc hẹn với người ra quyết định.",
+  r:{E:3,S:1,C:1},p:{E:3,N:2,C:2,A:-1},sk:{sales:3,net:2,eng:1,expert:1},ent:.45,cap:.05,tti:.2,up:.75},
+ {id:"agency",name:"Công ty dịch vụ cho doanh nghiệp (agency)",
+  desc:"Bán chuyên môn theo hợp đồng cho doanh nghiệp, sau đó thuê người để nhân rộng. Vốn thấp, dòng tiền đến sớm.",
+  ex:"Marketing hiệu suất, gia công phần mềm, tự động hoá bằng AI cho doanh nghiệp vừa và nhỏ, dịch vụ kế toán – thuế.",
+  test:"Bán trước một gói dịch vụ cho 3 khách trả tiền thật trước khi lập công ty.",
+  r:{E:3,C:1,A:1,I:1},p:{C:2,E:2,O:1,N:1},sk:{sales:3,lead:3,ops:2,expert:2,net:2},ent:.7,cap:.2,tti:.35,up:.8},
+ {id:"ecom",name:"Thương mại điện tử và bán hàng xuyên biên giới",
+  desc:"Bán sản phẩm vật lý qua sàn và mạng xã hội, trong nước hoặc xuất khẩu. Lợi nhuận đến từ chọn sản phẩm, quảng cáo và vận hành.",
+  ex:"TikTok Shop, Shopee, Amazon, Etsy; hàng thủ công, nông sản chế biến, hàng gia dụng nguồn Việt Nam.",
+  test:"Thử một sản phẩm với lô hàng nhỏ dưới 10 triệu đồng, đo biên lợi nhuận sau quảng cáo trong 30 ngày.",
+  r:{E:3,C:2,A:1},p:{C:2,O:1,N:2},sk:{sales:2,data:2,ops:3,write:1,eng:1},ent:.75,cap:.5,tti:.4,up:.8},
+ {id:"creator",name:"Thương hiệu cá nhân và sản phẩm số",
+  desc:"Xây lượng người theo dõi quanh một chuyên môn rồi bán khoá học, cộng đồng trả phí hoặc tiếp thị liên kết. Chi phí nhân bản gần bằng 0 nhưng cần 1–2 năm tích luỹ.",
+  ex:"Kênh YouTube hoặc TikTok chuyên ngành, bản tin email, khoá học trực tuyến, cộng đồng hội viên.",
+  test:"Đăng 30 nội dung trong 30 ngày về một chủ đề hẹp, đếm số người chủ động nhắn hỏi mua.",
+  r:{A:3,E:2,S:1},p:{O:3,E:2,C:2,N:1},sk:{write:3,design:1,teach:2,expert:2,sales:1},ent:.65,cap:.05,tti:.8,up:.8},
+ {id:"consult",name:"Chuyên gia tư vấn, freelance cao cấp",
+  desc:"Bán chuyên môn sâu theo giờ hoặc theo dự án. Thu nhập trên mỗi giờ cao, nhưng bị giới hạn bởi số giờ của chính bạn.",
+  ex:"Tư vấn vận hành, tài chính, pháp lý, công nghệ, tuyển dụng cấp cao; nhận khách quốc tế qua Upwork, Toptal.",
+  test:"Chào một gói tư vấn giá cố định cho 10 người trong mạng lưới, mục tiêu 1 hợp đồng trả tiền.",
+  r:{I:2,E:2,S:1,C:1},p:{C:2,O:1,E:1},sk:{expert:3,sales:2,write:1,eng:2,net:2},ent:.5,cap:.05,tti:.3,up:.6},
+ {id:"corporate",name:"Thăng tiến lên quản lý cấp cao",
+  desc:"Lên cấp giám đốc ở tập đoàn, công ty đa quốc gia hoặc doanh nghiệp FDI. Rủi ro thấp nhất; thu nhập tăng theo cấp bậc và tiếng Anh.",
+  ex:"Giám đốc kinh doanh, vận hành, nhà máy, tài chính, nhân sự; trưởng đại diện cho công ty nước ngoài.",
+  test:"Phỏng vấn 3 công ty trả cao hơn hiện tại để biết giá thị trường của bạn; xin dẫn một dự án liên phòng ban.",
+  r:{E:3,C:2,S:1},p:{C:3,E:2,N:2,A:1},sk:{lead:3,ops:2,eng:3,data:1,expert:2},ent:.15,cap:0,tti:.6,up:.65},
+ {id:"finance",name:"Tài chính chuyên nghiệp",
+  desc:"Nghề dựa trên con số và sự chính xác, có lộ trình chứng chỉ rõ ràng, thu nhập tăng mạnh ở cấp cao.",
+  ex:"Phân tích đầu tư, giám đốc tài chính thuê ngoài cho doanh nghiệp nhỏ, dịch vụ kế toán – thuế, tài chính doanh nghiệp.",
+  test:"Nhận làm báo cáo quản trị cho một doanh nghiệp nhỏ quen biết; tìm hiểu lộ trình CFA, ACCA hoặc CPA Việt Nam.",
+  r:{C:3,I:2,E:2},p:{C:3,N:2},sk:{data:3,ops:1,eng:1,expert:2,sales:1},ent:.3,cap:.05,tti:.5,up:.7},
+ {id:"local",name:"Kinh doanh tại chỗ, chuỗi nhỏ",
+  desc:"Mở cửa hàng hoặc dịch vụ phục vụ khách tại địa phương, nhân thành chuỗi khi mô hình có lãi. Cần vốn và kỷ luật vận hành; tỷ lệ đóng cửa cao.",
+  ex:"Quán ăn, cà phê, bán lẻ chuyên biệt, giặt là, sửa chữa, nhượng quyền.",
+  test:"Làm việc 2 tuần tại một cửa hàng cùng mô hình, hoặc bán thử online trước khi thuê mặt bằng.",
+  r:{E:3,R:2,C:2,S:1},p:{C:3,N:2,E:1,O:-1},sk:{ops:3,lead:2,sales:2,hand:1},ent:.75,cap:.8,tti:.4,up:.6},
+ {id:"trades",name:"Nghề kỹ thuật tay nghề cao, tiến tới đội thầu hoặc xưởng riêng",
+  desc:"Bắt đầu bằng tay nghề, kiếm nhiều khi chuyển sang nhận thầu và quản lý đội thợ.",
+  ex:"Điện lạnh, cơ khí chính xác, nội thất, điện mặt trời, bảo trì nhà xưởng, nông nghiệp công nghệ cao.",
+  test:"Nhận 3 công trình nhỏ dưới tên mình, tính lãi thật sau khi trừ công thợ và vật tư.",
+  r:{R:3,C:1,E:1},p:{C:2,N:1},sk:{hand:3,ops:2,lead:1,sales:1},ent:.55,cap:.45,tti:.35,up:.55},
+ {id:"edu",name:"Giáo dục và đào tạo",
+  desc:"Dạy và đào tạo, từ lớp nhỏ đến trung tâm hoặc đào tạo doanh nghiệp. Bắt đầu nhỏ được, nhân rộng bằng giáo viên và nội dung số.",
+  ex:"Trung tâm ngoại ngữ, luyện thi, kỹ năng nghề, đào tạo nội bộ cho doanh nghiệp, lớp trực tuyến.",
+  test:"Mở một lớp thử 5–10 học viên trả phí trong 4 tuần, đo tỷ lệ đăng ký học tiếp.",
+  r:{S:3,E:1,A:1,I:1},p:{E:2,A:2,C:2,O:1},sk:{teach:3,expert:2,write:1,lead:1,eng:1},ent:.55,cap:.3,tti:.4,up:.55},
+ {id:"startup",name:"Startup công nghệ tăng trưởng nhanh",
+  desc:"Xây công ty công nghệ bằng vốn đầu tư. Trần thu nhập cao nhất, nhưng phần lớn startup thất bại và nhà sáng lập nhận lương thấp nhiều năm.",
+  ex:"Fintech, phần mềm cho doanh nghiệp Đông Nam Á, logistics, công nghệ y tế, ứng dụng AI.",
+  test:"Phỏng vấn 20 khách hàng mục tiêu về một vấn đề cụ thể, tìm 3 người chịu trả tiền trước khi có sản phẩm.",
+  r:{E:3,I:2,A:1},p:{O:3,N:3,C:2,E:2},sk:{code:2,lead:3,sales:3,eng:2,net:2,data:1},ent:.95,cap:.4,tti:.9,up:1},
+ {id:"microsaas",name:"Sản phẩm phần mềm nhỏ, công cụ AI tự làm",
+  desc:"Tự làm phần mềm giải quyết một việc hẹp, bán thuê bao cho khách toàn cầu. Không cần gọi vốn, không cần đội lớn.",
+  ex:"Tiện ích cho Shopify, công cụ AI theo ngành, plugin, template, API.",
+  test:"Dựng bản tối giản trong 2 tuần, đưa lên một cộng đồng người dùng mục tiêu, mục tiêu 5 người trả tiền.",
+  r:{I:3,A:1,E:1,C:1},p:{O:2,C:3,E:-1},sk:{code:3,design:1,write:1,eng:2,data:1},ent:.65,cap:.1,tti:.7,up:.75},
+ {id:"creative",name:"Thiết kế, sáng tạo cho khách quốc tế",
+  desc:"Bán năng lực thẩm mỹ cho khách trả bằng ngoại tệ. Thu nhập phụ thuộc hồ sơ năng lực và khả năng tự tìm khách.",
+  ex:"UX/UI, nhận diện thương hiệu, dựng video, 3D, minh hoạ; qua Upwork, Dribbble hoặc khách giới thiệu.",
+  test:"Làm 3 sản phẩm mẫu cho một ngách cụ thể, gửi chào 30 khách quốc tế.",
+  r:{A:3,I:1,R:1},p:{O:3,C:2},sk:{design:3,eng:2,write:1,sales:1},ent:.4,cap:.1,tti:.35,up:.5},
+ {id:"wellness",name:"Dịch vụ sức khoẻ, thể hình, chăm sóc",
+  desc:"Dịch vụ chăm sóc con người, khó bị tự động hoá. Bắt đầu bằng khách cá nhân, mở rộng thành cơ sở hoặc thương hiệu.",
+  ex:"Huấn luyện viên cá nhân, dinh dưỡng, phòng tập nhỏ, spa – trị liệu, chăm sóc người cao tuổi.",
+  test:"Nhận 5 khách trả phí trong 30 ngày, theo dõi tỷ lệ gia hạn.",
+  r:{S:3,R:2,E:1},p:{E:2,A:2,C:2},sk:{teach:2,sales:2,ops:1,hand:1,lead:1},ent:.55,cap:.5,tti:.4,up:.5},
+ {id:"supply",name:"Sản xuất, xuất khẩu, chuỗi cung ứng",
+  desc:"Đứng giữa nhà máy Việt Nam và người mua nước ngoài, hoặc tự sản xuất. Biên lợi nhuận tốt nếu có quan hệ và kiểm soát được chất lượng.",
+  ex:"Đại lý tìm nguồn hàng cho khách nước ngoài, gia công đồ gỗ – may mặc – nhựa, giao nhận vận tải.",
+  test:"Tìm một người mua nước ngoài qua Alibaba hoặc LinkedIn, chốt một đơn hàng mẫu và ăn hoa hồng thay vì ôm hàng.",
+  r:{E:2,R:2,C:2},p:{C:3,N:2},sk:{ops:3,sales:2,eng:2,net:2,hand:1,expert:2},ent:.7,cap:.7,tti:.6,up:.85}
+];
+
+/* ---------- Trạng thái ---------- */
+var LS="huongkiemtien.v1";
+var state={stage:"intro",ans:{},sort:"combined"};
+try{var saved=JSON.parse(localStorage.getItem(LS)||"null");if(saved&&saved.ans){state=saved;}}catch(e){}
+function save(){try{localStorage.setItem(LS,JSON.stringify(state));}catch(e){}}
+
+var app=document.getElementById("app"),bar=document.getElementById("bar"),
+    segs=document.getElementById("segs"),barLabel=document.getElementById("barLabel");
+
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function clamp(x){return Math.max(0,Math.min(1,x));}
+function totalQ(){return SECTIONS.reduce(function(n,s){return n+s.items.length;},0);}
+
+/* ---------- Hoạ tiết guilloche (kiểu vân bảo an trên tờ tiền) ---------- */
+function rosette(){
+  var cx=200,cy=200,out="";
+  [[150,26,9,16],[96,18,14,12]].forEach(function(cfg){
+    var R=cfg[0],amp=cfg[1],n=cfg[2],curves=cfg[3];
+    for(var k=0;k<curves;k++){
+      var d="",ph=k*(Math.PI*2/curves);
+      for(var t=0;t<=Math.PI*2+0.02;t+=0.02){
+        var r=R+amp*Math.sin(n*t+ph);
+        d+=(t===0?"M":"L")+(cx+r*Math.cos(t)).toFixed(1)+" "+(cy+r*Math.sin(t)).toFixed(1);
+      }
+      out+='<path d="'+d+'Z"/>';
+    }
+  });
+  return '<svg class="rosette" viewBox="0 0 400 400" aria-hidden="true" fill="none" stroke="currentColor" stroke-width=".7">'+out+'<circle cx="200" cy="200" r="58"/><circle cx="200" cy="200" r="186"/></svg>';
+}
+
+/* ---------- Chấm điểm ---------- */
+function nrm(v){return (v-1)/4;}
+function compute(a){
+  var g=function(k){return nrm(a[k]||3);};
+  var ri={},abs={},m=0;
+  "RIASEC".split("").forEach(function(t){abs[t]=(g(t+"1")+g(t+"2")+g(t+"3"))/3;m+=abs[t]/6;});
+  "RIASEC".split("").forEach(function(t){ri[t]=.5*abs[t]+.5*clamp(.5+(abs[t]-m)*1.5);});
+  var b5={};"OCEAN".split("").forEach(function(t){b5[t]=(g(t+"_a")+(1-g(t+"_r")))/2;});
+  var ent=0;for(var i=1;i<=6;i++)ent+=g("T"+i)/6;
+  var sk={};Object.keys(SKILL_NAME).forEach(function(k){sk[k]=g(k);});
+  var c=a.ctx||{};
+  var runway=(c.runway||0)/3,dep=[1,.5,.15][c.dep||0],pref=[0,.5,1][c.pref||0];
+  var riskCap=.4*runway+.25*dep+.35*pref;
+  var userEnt=.6*ent+.4*riskCap;
+  var userCap=[.1,.35,.65,1][c.capital||0],userHor=[.15,.4,.7,1][c.horizon||0];
+
+  var paths=PATHS.map(function(p){
+    var k,w,sw=0,I=0,P=0,S=0;
+    for(k in p.r){I+=p.r[k]*ri[k];sw+=p.r[k];} I/=sw; sw=0;
+    for(k in p.p){w=p.p[k];P+=Math.abs(w)*(w>0?b5[k]:1-b5[k]);sw+=Math.abs(w);} P/=sw; sw=0;
+    for(k in p.sk){S+=p.sk[k]*sk[k];sw+=p.sk[k];} S/=sw;
+    var E=1-(userEnt<p.ent?(p.ent-userEnt):.4*(userEnt-p.ent));
+    var fit=.38*I+.17*P+.30*S+.15*E;
+    var capGap=Math.max(0,p.cap-userCap),horGap=Math.max(0,p.tti-userHor);
+    fit*=(1-.35*capGap)*(1-.35*horGap);
+    var why=[],gaps=[];
+    for(k in p.r){if(p.r[k]>=2&&ri[k]>=.55)why.push([p.r[k]*ri[k],"Bạn thích nhóm việc "+RIASEC_NAME[k].toLowerCase()]);}
+    for(k in p.sk){
+      if(p.sk[k]>=2&&sk[k]>=.75)why.push([p.sk[k]*sk[k],"Kỹ năng mạnh: "+SKILL_NAME[k].toLowerCase()]);
+      if(p.sk[k]>=2&&sk[k]<=.5)gaps.push("Kỹ năng cần nâng: "+SKILL_NAME[k].toLowerCase());
+    }
+    for(k in p.p){
+      w=p.p[k];
+      if(w>=2&&b5[k]>=.65)why.push([w*b5[k]*.8,"Tính cách: "+B5_NAME[k].toLowerCase()+" ở mức cao"]);
+      if(w>=2&&b5[k]<.45)gaps.push("Hướng này đòi hỏi "+B5_NAME[k].toLowerCase()+", hiện là điểm thấp của bạn");
+    }
+    if(capGap>0)gaps.push("Vốn cần nhiều hơn mức bạn có thể mất");
+    if(horGap>0)gaps.push("Thời gian ra tiền dài hơn mức bạn cần");
+    if(userEnt<p.ent-.2)gaps.push("Mức rủi ro cao hơn sức chịu đựng hiện tại của bạn");
+    why.sort(function(x,y){return y[0]-x[0];});
+    return {p:p,fit:fit,combined:fit*(.65+.35*p.up),why:why.slice(0,4).map(function(x){return x[1];}),gaps:gaps};
+  });
+
+  var mode=(userEnt>=.68&&(c.runway||0)>=2)?"founder":(userEnt>=.45?"hybrid":"employee");
+  return {ri:abs,b5:b5,ent:ent,riskCap:riskCap,userEnt:userEnt,sk:sk,paths:paths,mode:mode,ctx:c};
+}
+
+function level(v,labels){return labels[v<.25?0:v<.5?1:v<.8?2:3];}
+var L_UP=["Thấp","Trung bình","Cao","Rất cao"],L_CAP=["Gần như không","Thấp","Trung bình","Cao"],
+    L_TTI=["Vài tuần","Vài tháng","6–12 tháng","Trên 1 năm"],L_RISK=["Thấp","Trung bình","Cao","Rất cao"];
+
+/* ---------- Giao diện ---------- */
+function updateBar(){
+  if(state.stage==="intro"||state.stage==="result"){bar.hidden=true;return;}
+  bar.hidden=false;
+  segs.innerHTML=SECTIONS.map(function(s){
+    var done=s.items.filter(function(it){return answered(s,it[0]);}).length;
+    return '<div class="seg"><i style="width:'+Math.round(done/s.items.length*100)+'%"></i></div>';
+  }).join("");
+  var s=SECTIONS[state.stage];
+  barLabel.textContent="Phần "+(state.stage+1)+" trên "+SECTIONS.length+": "+s.title;
+}
+function answered(s,id){return s.type==="choice"?(state.ans.ctx&&state.ans.ctx[id]!=null):state.ans[id]!=null;}
+
+function renderIntro(){
+  var resume=Object.keys(state.ans).length>0;
+  app.innerHTML=
+  '<section class="hero">'+rosette()+
+  '<h1>Bạn hợp kiếm tiền bằng cách nào</h1>'+
+  '<p class="lede">'+totalQ()+' câu, khoảng 10 phút. Kết quả xếp hạng 16 hướng nghề và kinh doanh tại Việt Nam theo độ khớp với sở thích, tính cách, kỹ năng và sức chịu rủi ro của bạn, kèm mô hình làm việc nên chọn và một phép thử 30 ngày cho từng hướng.</p>'+
+  '</section>'+
+  '<ul class="measures">'+
+   '<li><b>18</b><span>Sở thích nghề nghiệp<small> theo mô hình Holland (RIASEC), khung được dùng rộng rãi nhất trong tư vấn nghề.</small></span></li>'+
+   '<li><b>10</b><span>Tính cách<small> theo mô hình Năm yếu tố lớn (Big Five). Sự tận tâm là yếu tố tính cách dự báo hiệu suất và thu nhập ổn định nhất.</small></span></li>'+
+   '<li><b>6</b><span>Khuynh hướng làm chủ<small>: chấp nhận rủi ro, tự tin năng lực, tự chủ, chủ động, khát vọng thành tựu, bền bỉ.</small></span></li>'+
+   '<li><b>12</b><span>Kỹ năng hiện có<small>, vì ở tuổi 34 lợi thế lớn nhất là thứ bạn đã tích luỹ.</small></span></li>'+
+   '<li><b>7</b><span>Hoàn cảnh tài chính và thời gian<small>, để loại những hướng bạn chưa đủ sức theo.</small></span></li>'+
+  '</ul>'+
+  '<p class="fine">Đây là công cụ sàng lọc dựa trên các khung lý thuyết đã được kiểm chứng, không phải bài đo tâm lý chuẩn hoá. Hãy xem kết quả là giả thuyết cần thử bằng hành động nhỏ, không phải phán quyết.</p>'+
+  '<div class="actions"><button class="btn" data-act="start">'+(resume?"Làm tiếp":"Bắt đầu")+'</button>'+
+  (resume?'<button class="linkbtn" data-act="reset">Xoá câu trả lời và làm lại</button>':'')+'</div>';
+}
+
+function renderSection(i){
+  var s=SECTIONS[i],html='<div class="sec-head"><h2 tabindex="-1" id="secTitle">'+esc(s.title)+'</h2><p>'+esc(s.lead)+'</p></div>';
+  s.items.forEach(function(it){
+    var id=it[0];
+    if(s.type==="choice"){
+      var cur=state.ans.ctx?state.ans.ctx[id]:null;
+      html+='<fieldset class="q" data-id="'+id+'"><legend>'+esc(it[1])+'</legend><div class="opts">'+
+        it[2].map(function(o,j){return '<label><input type="radio" name="ctx_'+id+'" value="'+j+'"'+(cur===j?" checked":"")+'><span>'+esc(o)+'</span></label>';}).join("")+
+        '</div></fieldset>';
+    }else{
+      var v=state.ans[id],ends=SCALES[s.scale];
+      html+='<fieldset class="q" data-id="'+id+'"><legend>'+esc(it[1])+'</legend><div class="scale">'+
+        [1,2,3,4,5].map(function(n){return '<label><input type="radio" name="'+id+'" value="'+n+'"'+(v===n?" checked":"")+' aria-label="'+n+' trên 5"><span>'+n+'</span></label>';}).join("")+
+        '</div><div class="ends"><span>'+ends[0]+'</span><span>'+ends[1]+'</span></div></fieldset>';
+    }
+  });
+  html+='<div class="nav"><p class="warn" id="warn" role="status"></p>'+
+    '<button class="btn ghost" data-act="back">Quay lại</button>'+
+    '<button class="btn" data-act="next">'+(i===SECTIONS.length-1?"Xem kết quả":"Tiếp tục")+'</button></div>';
+  app.innerHTML=html;
+}
+
+function meter(label,v,cls){
+  var pct=Math.round(v*100);
+  return '<div class="meter '+(cls||"")+'"><span>'+esc(label)+'</span><div class="track"><i style="width:'+pct+'%"></i></div><em>'+pct+'</em></div>';
+}
+function facts(p){
+  return '<div class="facts">'+
+   '<div><span>Trần thu nhập</span><b>'+level(p.up,L_UP)+'</b></div>'+
+   '<div><span>Vốn ban đầu</span><b>'+level(p.cap,L_CAP)+'</b></div>'+
+   '<div><span>Thời gian ra tiền</span><b>'+level(p.tti,L_TTI)+'</b></div>'+
+   '<div><span>Rủi ro thu nhập</span><b>'+level(p.ent,L_RISK)+'</b></div></div>';
+}
+function list(arr){return '<ul class="tight">'+arr.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul>';}
+
+var MODE={
+ founder:["Dồn toàn thời gian cho kinh doanh","Khuynh hướng làm chủ và sức chịu rủi ro tài chính của bạn đều cao. Bạn có thể dồn toàn thời gian cho việc kinh doanh, với điều kiện giai đoạn thử nghiệm đã có khách trả tiền thật."],
+ hybrid:["Giữ thu nhập chính, thử kinh doanh song song","Người khởi nghiệp trong lúc vẫn giữ việc chính có nguy cơ thất bại thấp hơn 33% so với người nghỉ việc ngay (Raffiee & Feng, 2014). Dành 10–15 giờ mỗi tuần cho hướng mới và chỉ rời việc chính khi hướng mới đã có doanh thu lặp lại."],
+ employee:["Tối đa hoá thu nhập từ chuyên môn","Hồ sơ của bạn nghiêng về ổn định. Thu nhập trung vị của người tự kinh doanh thấp hơn người làm thuê cùng năng lực (Hamilton, 2000), nên đây không phải lựa chọn kém. Đòn bẩy của bạn là chuyên môn hiếm, tiếng Anh, và chuyển sang nơi trả cao hơn: công ty nước ngoài hoặc vai trò gắn với doanh thu."]
+};
+var STATUS_NOTE=[
+ "Bạn đang làm công ăn lương: công việc hiện tại chính là nguồn vốn cho các phép thử.",
+ "Bạn đang làm tự do: bước tăng thu nhập nhanh nhất thường là đóng gói dịch vụ thành sản phẩm giá cố định và tăng giá.",
+ "Bạn đã có việc kinh doanh: dùng bảng xếp hạng để quyết định nên đào sâu mô hình hiện tại hay mở nhánh mới.",
+ "Bạn đang giữa hai chặng: ưu tiên hướng có thời gian ra tiền ngắn để ổn định dòng tiền trước."
+];
+
+function workStyle(r){
+  var b=r.b5,o=[];
+  o.push(b.E>=.65?"Tiếp xúc trực tiếp với khách hàng và đối tác là lợi thế của bạn. Dành phần lớn thời gian cho gặp gỡ, bán hàng, xây quan hệ; tìm cộng sự lo hậu cần."
+    :b.E<=.4?"Bạn làm tốt nhất khi tập trung sâu, ít họp. Ưu tiên việc làm sản phẩm, viết, phân tích, và kênh bán không cần gặp mặt như nội dung, quảng cáo, khách giới thiệu."
+    :"Bạn linh hoạt giữa làm độc lập và giao tiếp. Chia tuần thành ngày gặp người và ngày làm sâu.");
+  o.push(b.C>=.65?"Bạn tự quản tốt, hợp với làm từ xa, làm tự do hoặc tự kinh doanh mà không cần ai giám sát."
+    :b.C<=.45?"Kỷ luật tự giác là điểm nghẽn thu nhập lớn nhất của bạn. Tạo cấu trúc từ bên ngoài: cộng sự giỏi vận hành, hạn chót công khai với khách, lịch cố định."
+    :"Kỷ luật của bạn ở mức khá. Một hệ thống theo dõi mục tiêu hằng tuần sẽ tạo khác biệt rõ.");
+  o.push(b.O>=.65?"Bạn học nhanh cái mới, hợp với ngành đang thay đổi. Rủi ro là đổi hướng liên tục: cam kết với một hướng ít nhất 12 tháng."
+    :b.O<=.4?"Bạn hợp với mô hình đã được kiểm chứng: nhượng quyền, nghề có lộ trình rõ, hoặc sao chép một mô hình đang chạy tốt rồi làm kỹ hơn."
+    :"Bạn cân bằng giữa đổi mới và thực dụng: cải tiến một mô hình có sẵn thay vì phát minh từ đầu.");
+  o.push(b.N>=.65?"Bạn chịu áp lực tốt, có thể nhận vai trò thu nhập biến động như bán hàng hoa hồng hoặc sáng lập."
+    :b.N<=.4?"Thu nhập biến động sẽ bào mòn bạn. Giữ một khoản thu cố định đủ sống và quỹ dự phòng trước khi mạo hiểm."
+    :"Bạn chịu được biến động vừa phải: kết hợp một phần thu nhập cố định với một phần theo kết quả.");
+  o.push(b.A>=.7?"Bạn giữ quan hệ lâu dài tốt nhưng dễ định giá thấp và ngại đòi tiền. Dùng bảng giá cố định và hợp đồng mẫu để không phải mặc cả theo cảm tính."
+    :b.A<=.4?"Bạn đàm phán cứng và dám ra quyết định khó, hợp với thương vụ và quản trị hiệu suất. Cần một người mềm hơn giữ quan hệ với khách và đội ngũ."
+    :"Bạn đủ mềm để giữ quan hệ và đủ cứng để bảo vệ lợi ích của mình.");
+  if((r.ctx.hours||0)===0)o.push("Với dưới 5 giờ mỗi tuần, gần như không hướng mới nào kịp ra tiền. Việc đầu tiên là giải phóng được 10 giờ mỗi tuần.");
+  return o;
+}
+
+function sortedPaths(r){
+  var key=state.sort==="fit"?"fit":"combined";
+  return r.paths.slice().sort(function(a,b){return b[key]-a[key];});
+}
+function hollandCode(r){
+  return Object.keys(r.ri).sort(function(a,b){return r.ri[b]-r.ri[a];}).slice(0,3);
+}
+function summaryText(r,ps){
+  var c=r.ctx,ctxS=SECTIONS[4].items;
+  var pc=function(v){return Math.round(v*100);};
+  var topSk=Object.keys(r.sk).sort(function(a,b){return r.sk[b]-r.sk[a];}).slice(0,4).map(function(k){return SKILL_NAME[k]+" ("+state.ans[k]+"/5)";});
+  var t="KẾT QUẢ TRẮC NGHIỆM HƯỚNG KIẾM TIỀN (nam, sinh 1992, Việt Nam)\n";
+  t+="Mã Holland: "+hollandCode(r).join("")+" | "+Object.keys(r.ri).map(function(k){return k+" "+pc(r.ri[k]);}).join(", ")+"\n";
+  t+="Big Five: "+Object.keys(r.b5).map(function(k){return B5_NAME[k]+" "+pc(r.b5[k]);}).join("; ")+"\n";
+  t+="Khuynh hướng làm chủ: "+pc(r.ent)+" | Sức chịu rủi ro tài chính: "+pc(r.riskCap)+"\n";
+  t+="Kỹ năng mạnh nhất: "+topSk.join("; ")+"\n";
+  t+="Hoàn cảnh: "+ctxS.map(function(it){return it[1]+": "+it[2][c[it[0]]||0];}).join(" | ")+"\n";
+  t+="Mô hình đề xuất: "+MODE[r.mode][0]+"\n";
+  t+="5 hướng đứng đầu:\n"+ps.slice(0,5).map(function(x,i){return (i+1)+". "+x.p.name+" (độ khớp "+pc(x.fit)+"%)";}).join("\n")+"\n\n";
+  t+="Dựa trên kết quả này, hãy lập cho tôi kế hoạch 90 ngày cho hướng số 1, kèm chỉ số cần đo mỗi tuần.";
+  return t;
+}
+
+function renderResult(){
+  var r=compute(state.ans),ps=sortedPaths(r),top=ps[0],pc=function(v){return Math.round(v*100);};
+  var code=hollandCode(r);
+  var html='<div class="sec-head"><h2 tabindex="-1" id="secTitle">Kết quả của bạn</h2></div>';
+
+  html+='<section class="note">'+rosette()+
+    '<div class="pct">'+pc(top.fit)+'<small>% khớp</small></div>'+
+    '<h2>'+esc(top.p.name)+'</h2><p>'+esc(top.p.desc)+'</p>'+facts(top.p)+'</section>';
+  html+=pathBody(top,true);
+
+  html+='<section class="block"><h2>Mô hình làm việc nên chọn</h2><div class="mode"><h3>'+MODE[r.mode][0]+'</h3><p>'+MODE[r.mode][1]+'</p><p>'+STATUS_NOTE[r.ctx.status||0]+'</p></div></section>';
+
+  html+='<section class="block"><h2>Các hướng tiếp theo</h2>'+
+    '<div class="sortrow"><label><input type="radio" name="sort" value="combined"'+(state.sort!=="fit"?" checked":"")+'> Xếp theo độ khớp nhân với trần thu nhập</label>'+
+    '<label><input type="radio" name="sort" value="fit"'+(state.sort==="fit"?" checked":"")+'> Chỉ theo độ khớp</label></div>';
+  ps.slice(1,6).forEach(function(x,i){
+    html+='<details class="path"><summary><span class="rank">'+(i+2)+'</span><span class="nm">'+esc(x.p.name)+'</span><span class="sc">'+pc(x.fit)+'%</span></summary>'+
+      '<div class="body"><p>'+esc(x.p.desc)+'</p>'+facts(x.p)+pathBody(x,false)+'</div></details>';
+  });
+  html+='<ul class="rest">'+ps.slice(6).map(function(x){return '<li><span>'+esc(x.p.name)+'</span><b>'+pc(x.fit)+'%</b></li>';}).join("")+'</ul></section>';
+
+  html+='<section class="block"><h2>Hồ sơ của bạn</h2>'+
+    '<p class="sub">Mã Holland</p><div class="code">'+code.join("")+'</div><p class="fine">'+code.map(function(k){return RIASEC_NAME[k];}).join(", ")+'</p>'+
+    Object.keys(r.ri).map(function(k){return meter(RIASEC_NAME[k],r.ri[k]);}).join("")+
+    '<p class="sub">Tính cách</p>'+Object.keys(r.b5).map(function(k){return meter(B5_NAME[k],r.b5[k],"g");}).join("")+
+    '<p class="sub">Làm chủ và rủi ro</p>'+meter("Khuynh hướng làm chủ",r.ent,"p")+meter("Sức chịu rủi ro tài chính",r.riskCap,"y")+
+    '</section>';
+
+  html+='<section class="block"><h2>Cách làm việc hợp với bạn</h2>'+list(workStyle(r))+'</section>';
+
+  html+='<section class="block"><h2>Đào sâu cùng Claude</h2><p>Sao chép bản tóm tắt dưới đây và dán vào cuộc trò chuyện để nhận kế hoạch 90 ngày cho hướng đứng đầu.</p>'+
+    '<div class="actions"><button class="btn" data-act="copy">Sao chép kết quả</button><span class="ok" id="copied" role="status"></span></div>'+
+    '<textarea class="copy" id="copyBox" readonly aria-label="Bản tóm tắt kết quả">'+esc(summaryText(r,ps))+'</textarea></section>';
+
+  html+='<section class="block"><h2>Cơ sở khoa học và giới hạn</h2><ul class="refs">'+
+   '<li>Sở thích khớp với công việc dự báo hiệu suất và mức độ gắn bó: Nye, Su, Rounds & Drasgow (2012), phân tích tổng hợp trên Perspectives on Psychological Science; mô hình RIASEC của Holland (1997).</li>'+
+   '<li>Sự tận tâm dự báo hiệu suất công việc ở mọi nhóm nghề: Barrick & Mount (1991). Tận tâm cao và bất ổn cảm xúc thấp gắn với thu nhập cao hơn về dài hạn: Judge, Higgins, Thoresen & Barrick (1999).</li>'+
+   '<li>Người kinh doanh khác người quản lý làm thuê về tận tâm, cởi mở, ổn định cảm xúc; nhu cầu thành tựu, tự tin năng lực, chủ động và chấp nhận rủi ro tương quan với thành công kinh doanh: Zhao & Seibert (2006); Rauch & Frese (2007).</li>'+
+   '<li>Sau 10 năm, thu nhập trung vị của người tự kinh doanh thấp hơn khoảng 35% so với làm thuê: Hamilton (2000), Journal of Political Economy. Kinh doanh có trần cao hơn nhưng trung vị thấp hơn.</li>'+
+   '<li>Giữ việc chính khi khởi nghiệp giảm 33% nguy cơ thất bại: Raffiee & Feng (2014), Academy of Management Journal.</li>'+
+   '<li>Tuổi trung bình của nhà sáng lập các công ty tăng trưởng nhanh nhất tại Mỹ là 45: Azoulay, Jones, Kim & Miranda (2020). Ở tuổi 34 bạn chưa muộn.</li>'+
+   '<li>Giới hạn: bài này dùng câu hỏi tự đánh giá dạng rút gọn, chưa được chuẩn hoá trên mẫu người Việt. Các mức "trần thu nhập", "vốn", "thời gian ra tiền" là ước lượng tương đối giữa các hướng, không phải số liệu thống kê. Phần lớn nghiên cứu trích dẫn thực hiện ở Mỹ và châu Âu. Bài này không phải tư vấn tài chính.</li>'+
+   '</ul></section>';
+
+  html+='<div class="nav"><button class="btn ghost" data-act="edit">Sửa câu trả lời</button><button class="linkbtn" data-act="reset">Xoá hết và làm lại</button></div>';
+  app.innerHTML=html;
+}
+function pathBody(x,standalone){
+  var h="";
+  if(x.why.length)h+='<p class="sub">Vì sao khớp</p>'+list(x.why);
+  if(x.gaps.length)h+='<p class="sub">Điểm cần lưu ý</p>'+list(x.gaps);
+  h+='<p class="sub">Ví dụ tại Việt Nam</p><p>'+esc(x.p.ex)+'</p>';
+  h+='<p class="sub">Phép thử 30 ngày</p><p>'+esc(x.p.test)+'</p>';
+  return standalone?'<section>'+h+'</section>':h;
+}
+
+function render(focus){
+  if(state.stage==="intro")renderIntro();
+  else if(state.stage==="result")renderResult();
+  else renderSection(state.stage);
+  updateBar();
+  if(focus){
+    window.scrollTo(0,0);
+    var t=document.getElementById("secTitle");if(t)t.focus({preventScroll:true});
+  }
+}
+
+/* ---------- Sự kiện ---------- */
+app.addEventListener("change",function(e){
+  var el=e.target;if(el.type!=="radio")return;
+  if(el.name==="sort"){state.sort=el.value;save();renderResult();return;}
+  if(el.name.indexOf("ctx_")===0){state.ans.ctx=state.ans.ctx||{};state.ans.ctx[el.name.slice(4)]=+el.value;}
+  else state.ans[el.name]=+el.value;
+  var fs=el.closest("fieldset");if(fs)fs.classList.remove("miss");
+  save();updateBar();
+});
+app.addEventListener("click",function(e){
+  var b=e.target.closest("[data-act]");if(!b)return;
+  var act=b.getAttribute("data-act");
+  if(act==="start"){
+    var first=0;
+    for(var i=0;i<SECTIONS.length;i++){var s=SECTIONS[i];if(!s.items.every(function(it){return answered(s,it[0]);})){first=i;break;}first=i;}
+    state.stage=first;save();render(true);
+  }else if(act==="back"){
+    state.stage=state.stage===0?"intro":state.stage-1;save();render(true);
+  }else if(act==="next"){
+    var sec=SECTIONS[state.stage],miss=sec.items.filter(function(it){return !answered(sec,it[0]);});
+    if(miss.length){
+      miss.forEach(function(it){var f=app.querySelector('fieldset[data-id="'+it[0]+'"]');if(f)f.classList.add("miss");});
+      document.getElementById("warn").textContent="Còn "+miss.length+" câu chưa trả lời ở phần này.";
+      var f0=app.querySelector("fieldset.miss");if(f0)f0.scrollIntoView({block:"center"});
+      return;
+    }
+    state.stage=state.stage===SECTIONS.length-1?"result":state.stage+1;save();render(true);
+  }else if(act==="edit"){state.stage=0;save();render(true);
+  }else if(act==="reset"){
+    state={stage:"intro",ans:{},sort:"combined"};save();render(true);
+  }else if(act==="copy"){
+    var box=document.getElementById("copyBox"),ok=document.getElementById("copied");
+    var done=function(){ok.textContent="Đã sao chép kết quả";};
+    var fallback=function(){box.focus();box.select();try{if(document.execCommand("copy"))done();else ok.textContent="Hãy bôi đen ô bên dưới và sao chép thủ công";}catch(err){ok.textContent="Hãy bôi đen ô bên dưới và sao chép thủ công";}};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(box.value).then(done,fallback);}else fallback();
+  }
+});
+
+render(false);
+})();
+</script>
+</body>
+</html>
