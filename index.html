@@ -514,7 +514,7 @@ function summaryText(r,ps){
   var c=r.ctx,ctxS=SECTIONS[4].items;
   var pc=function(v){return Math.round(v*100);};
   var topSk=Object.keys(r.sk).sort(function(a,b){return r.sk[b]-r.sk[a];}).slice(0,4).map(function(k){return SKILL_NAME[k]+" ("+state.ans[k]+"/5)";});
-  var t="KẾT QUẢ TRẮC NGHIỆM HƯỚNG KIẾM TIỀN (nam, sinh 1992, Việt Nam)\n";
+  var t="KẾT QUẢ TRẮC NGHIỆM HƯỚNG KIẾM TIỀN (Việt Nam)\n";
   t+="Mã Holland: "+hollandCode(r).join("")+" | "+Object.keys(r.ri).map(function(k){return k+" "+pc(r.ri[k]);}).join(", ")+"\n";
   t+="Big Five: "+Object.keys(r.b5).map(function(k){return B5_NAME[k]+" "+pc(r.b5[k]);}).join("; ")+"\n";
   t+="Khuynh hướng làm chủ: "+pc(r.ent)+" | Sức chịu rủi ro tài chính: "+pc(r.riskCap)+"\n";
